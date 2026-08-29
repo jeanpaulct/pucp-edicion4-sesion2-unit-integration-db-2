@@ -11,7 +11,7 @@ const validateCoupon = async (req, res) => {
     const cleanCode = code.trim().toUpperCase();
 
     // Búsqueda directa en la Base de Datos
-    const coupon = await Coupon.findOne({ where: { cleanCode } });
+    const coupon = await Coupon.findOne({ where: { code: cleanCode } });
     
     if (!coupon) {
       return res.status(404).json({ error: 'Cupón no encontrado o inválido' });

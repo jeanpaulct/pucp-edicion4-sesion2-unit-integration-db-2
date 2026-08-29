@@ -3,11 +3,18 @@ const app = require('../src/app');
 const { sequelize } = require('../src/database');
 const Coupon = require('../src/models/Coupon');
 
-jest.mock('../src/models/Coupon');
-
 describe('Taller de Testing: Validación de Cupones', () => {
 
   describe('Bloque 1 - Prueba Unitaria con Mocking (Sin BD)', () => {
+
+    beforeEach(() => {
+      jest.spyOn(Coupon, 'findOne').mockResolvedValueOnce({ discount_percentage: 20 });
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
     it('Debería retornar 200 y el porcentaje si el cupón existe', async () => {
       Coupon.findOne.mockResolvedValueOnce({ discount_percentage: 20 });
 
@@ -17,7 +24,7 @@ describe('Taller de Testing: Validación de Cupones', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.discount_percentage).toBe(20);
-      expect(Coupon.findOne).toHaveBeenCalledWith({ where: { cleanCode: 'SUMMER20' } });
+      expect(Coupon.findOne).toHaveBeenCalledWith({ where: { code: 'SUMMER20' } });
     });
   });
 
