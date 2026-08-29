@@ -17,7 +17,7 @@ describe('Taller de Testing: Validación de Cupones', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.discount_percentage).toBe(20);
-      expect(Coupon.findOne).toHaveBeenCalledWith({ where: { code: 'SUMMER20' } });
+      expect(Coupon.findOne).toHaveBeenCalledWith({ where: { cleanCode: 'SUMMER20' } });
     });
   });
 
